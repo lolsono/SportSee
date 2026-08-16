@@ -1,13 +1,10 @@
-import '../public/Styles/App.css'
+import AppRoutes from "./routes/Routes.jsx";
+
 
 function App() {
 
-  return (
-    <>
-      <p>H1 premier</p>
-      <p>H2 deuxième</p>
-    </>
-  )
+  return <AppRoutes />;
+
 }
 
 export default App
