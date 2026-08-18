@@ -1,12 +1,12 @@
 import '../../public/Styles/login.css'
-import authUser from '../API/auth.js'
+import AuthServices from '../services/AuthServices'
 
 function Login() {
 
     function getForms (formData) {
         const email = formData.get("email");
         const password = formData.get("password");
-        console.log(email, password);
+        AuthServices(email, password);
     }
 
     return (
@@ -22,7 +22,7 @@ function Login() {
                     <div className="form-group">
                         <label htmlFor="email">Email</label>
                         <input
-                            type="email"
+                            type="name"
                             id="email"
                             name="email"
                         />

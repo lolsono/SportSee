@@ -1,0 +1,80 @@
+{
+  "users": [
+    {
+      "username": "sophiemartin",
+      "password": "password123",
+      "userId": "user123",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyMTIzIiwiaWF0IjoxNzg3MDcyNDc4LCJleHAiOjE3ODcxNTg4Nzh9.KDU_z9Ad9VZcEaJ9RkM_Cbm28EAdad10kmDb78IcRrM"
+    },
+    {
+      "username": "emmaleroy",
+      "password": "password789",
+      "userId": "user456",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyMTIzIiwiaWF0IjoxNzg3MDcyNDc4LCJleHAiOjE3ODcxNTg4Nzh9.KDU_z9Ad9VZcEaJ9RkM_Cbm28EAdad10kmDb78IcRrM"
+    },
+    {
+      "username": "marcdubois",
+      "password": "password456",
+      "userId": "user789",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyMTIzIiwiaWF0IjoxNzg3MDcyNDc4LCJleHAiOjE3ODcxNTg4Nzh9.KDU_z9Ad9VZcEaJ9RkM_Cbm28EAdad10kmDb78IcRrM"
+    }
+  ],
+
+  "userInfos": [
+    {
+      "userId": "user123",
+      "profile" : {
+        "firstName": "Sophie",
+        "lastName": "Martin",
+        "age": 32,
+        "gender": "female",
+        "profilePicture": "http://localhost:8000/images/sophie.jpg",
+        "height": 165,
+          "weight": 60,
+          "createdAt": "2025-01-01"
+      },
+      "statistics" : {
+          "totalDistance": "2250.2",
+          "totalSessions": 348,
+          "totalDuration": 14625
+      }
+    },
+    {
+      "userId": "user789",
+      "profile" : {
+        "firstName": "Emma",
+        "lastName": "Leroy",
+        "age": 28,
+        "gender": "female",
+        "height": 170,
+        "weight": 62,
+        "profilePicture": "http://localhost:8000/images/emma.jpg",
+        "createdAt": "2025-01-01"
+      },
+      "statistics" : {
+          "totalDistance": "2250.2",
+          "totalSessions": 348,
+          "totalDuration": 14625
+      }
+    },
+    {
+      "userId": "user456",
+      "profile" : {
+        "firstName": "Marc",
+        "lastName": "Dubois",
+        "goal": 2,
+        "age": 45,
+        "gender": "male",
+        "height": 180,
+        "weight": 85,
+        "profilePicture": "http://localhost:8000/images/marc.jpg",
+        "createdAt": "2025-01-01"
+      },
+      "statistics" : {
+          "totalDistance": "2250.2",
+          "totalSessions": 348,
+          "totalDuration": 14625
+      }
+    }
+  ]
+}
