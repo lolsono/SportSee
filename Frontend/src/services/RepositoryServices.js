@@ -17,19 +17,19 @@ export async function GetUser(username, password) {
       return false;
   }
 
-  const user = await fetch("http://localhost:8000/api/login", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      username: username,
-      password: password
-    })
+  const response = await fetch(`${import.meta.env.VITE_API_URL}/api/login`, {
+      method: "POST",
+      headers: {
+          "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+          username,
+          password
+      })
   });
 
-  if (user.ok) {
-    return await user.json();
+  if (response.ok) {
+    return await response.json();
   }
 
   return false;
