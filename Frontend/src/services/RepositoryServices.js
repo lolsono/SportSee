@@ -1,16 +1,23 @@
 import data from "../mocks/data.json";
 
-const USE_MOCK = true;
+const USE_MOCK = false;
 
 export async function GetUser(username, password) {
 
   if (USE_MOCK) {
+      const user = data.users.find(
+          user => user.username === username
+              && user.password === password
+      );
 
-    return data.users.find(user => user.username === username);
+      if (user) {
+          return user;
+      }
 
+      return false;
   }
 
-  const response = await fetch("http://localhost:8000/api/login", {
+  const user = await fetch("http://localhost:8000/api/login", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -21,10 +28,10 @@ export async function GetUser(username, password) {
     })
   });
 
-  if (!response.ok) {
-    throw new Error("Erreur lors de la récupération des utilisateurs");
+  if (user.ok) {
+    return await user.json();
   }
 
-  return response.json();
+  return false;
 }
 

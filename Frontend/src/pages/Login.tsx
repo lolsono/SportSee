@@ -1,12 +1,25 @@
 import '../../public/Styles/login.css'
+import { useNavigate } from "react-router";
+import { useState } from "react";
 import AuthServices from '../services/AuthServices'
 
 function Login() {
 
-    function getForms (formData) {
+    const navigate = useNavigate();
+    const [error, setError] = useState("");
+
+    async function getForms (formData) {
         const email = formData.get("email");
         const password = formData.get("password");
-        AuthServices(email, password);
+
+        const result = await AuthServices(email, password);
+
+        if (result) {
+            navigate("/");
+        }
+
+        setError("identifiant incorrect !");
+
     }
 
     return (
@@ -18,6 +31,12 @@ function Login() {
                 <form className="login-form" action={getForms}>
                     <h2>Transformez vos stats en résultats</h2>
                     <p>Se connecter</p>
+
+                    {error && (
+                        <p className="login-error">
+                            {error}
+                        </p>
+                    )}
 
                     <div className="form-group">
                         <label htmlFor="email">Email</label>
