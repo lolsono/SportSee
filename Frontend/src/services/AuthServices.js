@@ -1,8 +1,8 @@
 import { GetUser } from "./RepositoryServices";
 
-async function AuthServices(username, password) {
+async function AuthServices(email, password) {
 
-    const user = await GetUser(username, password);
+    const user = await GetUser(email, password);
 
     if (user) {
         localStorage.setItem("token", user.token);

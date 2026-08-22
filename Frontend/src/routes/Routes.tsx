@@ -1,15 +1,33 @@
-import { Routes, Route } from "react-router";
+import { Routes, Route, Navigate } from "react-router";
 
-import Home from "../pages/Home";
+import HomePage from "../pages/HomePage";
 import Login from "../pages/Login";
 import Error404 from "../pages/Error404";
 
+function ProtectedRoute({ children }) {
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    return <Navigate to="/" replace />;
+  }
+
+  return children;
+}
+
 export default function AppRoutes() {
-    
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
+      <Route path="/" element={<Login />} />
       <Route path="/login" element={<Login />} />
+
+      <Route
+        path="/logOn"
+        element={
+          <ProtectedRoute>
+            <HomePage />
+          </ProtectedRoute>
+        }
+      />
 
       <Route path="*" element={<Error404 />} />
     </Routes>

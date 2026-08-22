@@ -1,32 +1,36 @@
 import '../../public/Styles/login.css'
 import { useNavigate } from "react-router";
 import { useState } from "react";
-import AuthServices from '../services/AuthServices'
+import { useAuth } from '../context/ContextAuth';
+import Logo from '../../public/Images/Logo.svg';
+import Background_picture from '../../public/Images/Background_picture.svg';
 
 function Login() {
 
     const navigate = useNavigate();
+    const { login } = useAuth();
+
     const [error, setError] = useState("");
 
-    async function getForms (formData) {
+    async function getForms(formData) {
         const email = formData.get("email");
         const password = formData.get("password");
 
-        const result = await AuthServices(email, password);
+        const result = await login(email, password);
 
         if (result) {
-            navigate("/");
+            navigate("/logOn");
+            return;
         }
 
-        setError("identifiant incorrect !");
-
+        setError("Identifiant incorrect !");
     }
-
+    
     return (
         <div className="login-container">
 
             <div className="left-content">
-                <img src="/Images/Logo.svg" alt="logo" />
+                <img src={Logo} alt="logo" />
 
                 <form className="login-form" action={getForms}>
                     <h2>Transformez vos stats en résultats</h2>
@@ -66,7 +70,7 @@ function Login() {
 
             <div className="right-content">
                 <img
-                    src="/Images/Background_picture.svg"
+                    src={Background_picture}
                     alt="background"
                 />
                 <p>Analysez vos performances en un clin d’œil, suivez vos progrès et atteignez vos objectifs.</p>
