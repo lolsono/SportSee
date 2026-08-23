@@ -71,4 +71,3 @@ export async function GetDetailsUser(token) {
 
   return false;
 }
-

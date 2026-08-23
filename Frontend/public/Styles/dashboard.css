@@ -1,0 +1,93 @@
+.dashboard {
+    min-height: 100vh;
+    background-color: #f4f5ff;
+}
+
+.dashboard-content {
+    width: 100%;
+    padding: 40px 0;
+}
+
+.dashboard-user-card {
+    width: 100%;
+    max-width: 1000px;
+    min-height: 100px;
+    margin: 0 auto;
+    padding: 20px 30px;
+    display: flex;
+    align-items: center;
+    background-color: #ffffff;
+    border-radius: 20px;
+    box-sizing: border-box;
+}
+
+/** Photo utilisateur **/
+
+.dashboard-user-picture {
+    width: 65px;
+    height: 65px;
+
+    object-fit: cover;
+
+    border-radius: 5px;
+
+    flex-shrink: 0;
+}
+
+/** Info utilisateur **/
+
+.dashboard-user-info {
+    margin-left: 22px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.dashboard-user-info h2 {
+    margin: 0;
+
+    font-size: 16px;
+    font-weight: 500;
+
+    color: #111111;
+}
+
+.dashboard-user-info p {
+    margin: 5px 0 0;
+
+    font-size: 9px;
+
+    color: #888888;
+}
+
+.dashboard-distance {
+    margin-left: auto;
+
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.dashboard-distance span {
+    font-size: 9px;
+    color: #777777;
+}
+
+.dashboard-distance strong {
+    width: 105px;
+    height: 52px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: #1728ed;
+
+    border-radius: 6px;
+
+    color: white;
+
+    font-size: 18px;
+    font-weight: 500;
+}

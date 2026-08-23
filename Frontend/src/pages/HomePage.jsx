@@ -1,12 +1,11 @@
 import "../../public/Styles/homePage.css";
-import { useAuth } from "../context/ContextAuth";
+import { useAuth } from "../context/ContextAuth.jsx";
 import Footer from "../components/Footer.jsx";
 import NavBar from "../components/NavBar.jsx";
 
 function HomePage() {
 
     const { userDetails } = useAuth();
-
     const profile = userDetails?.profile;
     const statistics = userDetails?.statistics;
 
@@ -24,7 +23,7 @@ function HomePage() {
 
                         <img
                             className="user-picture"
-                            src={profile?.picture}
+                            src={profile?.profilePicture}
                             alt={profile?.firstName}
                         />
 
@@ -80,36 +79,35 @@ function HomePage() {
                         <div className="stat-card">
                             <p>Temps total couru</p>
                             <strong>
-                                27<span>h</span>
+                                {statistics?.totalDuration} <span>h</span>
                             </strong>
-                            <small>15min</small>
                         </div>
 
                         <div className="stat-card">
                             <p>Calories brûlées</p>
                             <strong>
-                                25000 <small>cal</small>
+                                ?? <small>cal</small>
                             </strong>
                         </div>
 
                         <div className="stat-card">
                             <p>Distance totale parcourue</p>
                             <strong>
-                                312 <small>km</small>
+                                {statistics?.totalDistance} <small>km</small>
                             </strong>
                         </div>
 
                         <div className="stat-card">
                             <p>Nombre de jours de repos</p>
                             <strong>
-                                9 <small>jours</small>
+                                ?? <small>jours</small>
                             </strong>
                         </div>
 
                         <div className="stat-card">
                             <p>Nombre de sessions</p>
                             <strong>
-                                41 <small>sessions</small>
+                                 {statistics?.totalSessions} <small>sessions</small>
                             </strong>
                         </div>
 
