@@ -1,7 +1,11 @@
 import "../../public/Styles/navbar.css";
 import Logo from "../../public/Images/Logo.svg";
+import { useAuth } from "../context/ContextAuth";
 
 function Navbar() {
+
+    const { logOut } = useAuth();
+
     return (
         <header className="navbar">
             <div className="navbar-logo">
@@ -14,7 +18,11 @@ function Navbar() {
 
                 <span className="navbar-separator"></span>
 
-                <a href="/logout" className="logout">
+                <a
+                    href="/"
+                    className="logout"
+                    onClick={logOut}
+                >
                     Se déconnecter
                 </a>
             </nav>

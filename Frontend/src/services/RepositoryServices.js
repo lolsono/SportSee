@@ -2,6 +2,12 @@ import data from "../mocks/data.json";
 
 const USE_MOCK = false;
 
+/**
+ * Attention en mode mock bien se déconnecter puis reconnecter
+ * Car le token ne change pas il est figé.
+ * Sinon ça bloque les recherches via le token
+ */
+
 /** Requête pour les connexion utilisateur **/
 export async function GetUser(username, password) {
 
@@ -39,18 +45,17 @@ export async function GetUser(username, password) {
 /** Requête pour les details de l'utilisateur **/
 export async function GetDetailsUser(token) {
 
-  if (USE_MOCK) {
-      const user = data.users.find(
-          user => user.username === username
-              && user.password === password
-      );
+    if (USE_MOCK) {
+        const user = data.userInfos.find(
+        user => user.token === token
+        );
 
-      if (user) {
-          return user;
-      }
+        if (user) {
+        return user;
+        }
 
-      return false;
-  }
+        return false;
+    }
 
     const response = await fetch(`${import.meta.env.VITE_API_URL}/api/user-info`, {
         method: "GET",

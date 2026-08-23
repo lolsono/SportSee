@@ -70,13 +70,20 @@ export function AuthProvider({ children }) {
         return true;
     };
 
+    // Déconnexion
+    const logOut = () => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("id");
+        return true;
+    }
 
     return (
         <AuthContext.Provider
             value={{
                 userDetails,
                 loading,
-                login
+                login,
+                logOut
             }}
         >
             {children}

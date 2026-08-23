@@ -4,25 +4,25 @@
       "username": "sophiemartin",
       "password": "password123",
       "userId": "user123",
-      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyMTIzIiwiaWF0IjoxNzg3MDcyNDc4LCJleHAiOjE3ODcxNTg4Nzh9.KDU_z9Ad9VZcEaJ9RkM_Cbm28EAdad10kmDb78IcRrM"
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyMTIzIiwiaWF0IjoxNzg3NDcxOTg3LCJleHAiOjE3ODc1NTgzODd9.ZqZI4FPlOHadEOBfb7Mx88wVW9ejWwFD9EJng8IVL-g"
     },
     {
       "username": "emmaleroy",
       "password": "password789",
       "userId": "user456",
-      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyMTIzIiwiaWF0IjoxNzg3MDcyNDc4LCJleHAiOjE3ODcxNTg4Nzh9.KDU_z9Ad9VZcEaJ9RkM_Cbm28EAdad10kmDb78IcRrM"
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyNzg5IiwiaWF0IjoxNzg3NDczNzI2LCJleHAiOjE3ODc1NjAxMjZ9.PKAfXDa-4VnFBtNZ_8cXcWpAZGKsF4bWcV_tbV0EgSM"
     },
     {
       "username": "marcdubois",
       "password": "password456",
       "userId": "user789",
-      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyMTIzIiwiaWF0IjoxNzg3MDcyNDc4LCJleHAiOjE3ODcxNTg4Nzh9.KDU_z9Ad9VZcEaJ9RkM_Cbm28EAdad10kmDb78IcRrM"
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyNzg5IiwiaWF0IjoxNzg3NDczNzU0LCJleHAiOjE3ODc1NjAxNTR9.pTodYXi9urzJmTTyIYzlOVVPKSwV0b6VRPtLerxWF7A"
     }
   ],
 
   "userInfos": [
     {
-      "userId": "user123",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyMTIzIiwiaWF0IjoxNzg3NDcxOTg3LCJleHAiOjE3ODc1NTgzODd9.ZqZI4FPlOHadEOBfb7Mx88wVW9ejWwFD9EJng8IVL-g",
       "profile" : {
         "firstName": "Sophie",
         "lastName": "Martin",
@@ -30,8 +30,8 @@
         "gender": "female",
         "profilePicture": "http://localhost:8000/images/sophie.jpg",
         "height": 165,
-          "weight": 60,
-          "createdAt": "2025-01-01"
+        "weight": 60,
+        "createdAt": "2025-01-01"
       },
       "statistics" : {
           "totalDistance": "2250.2",
@@ -40,7 +40,7 @@
       }
     },
     {
-      "userId": "user789",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyNzg5IiwiaWF0IjoxNzg3NDczNzI2LCJleHAiOjE3ODc1NjAxMjZ9.PKAfXDa-4VnFBtNZ_8cXcWpAZGKsF4bWcV_tbV0EgSM",
       "profile" : {
         "firstName": "Emma",
         "lastName": "Leroy",
@@ -58,7 +58,7 @@
       }
     },
     {
-      "userId": "user456",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyNzg5IiwiaWF0IjoxNzg3NDczNzU0LCJleHAiOjE3ODc1NjAxNTR9.pTodYXi9urzJmTTyIYzlOVVPKSwV0b6VRPtLerxWF7A",
       "profile" : {
         "firstName": "Marc",
         "lastName": "Dubois",
