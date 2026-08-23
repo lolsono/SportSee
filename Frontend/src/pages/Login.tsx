@@ -19,7 +19,7 @@ function Login() {
         const result = await login(email, password);
 
         if (result) {
-            navigate("/logOn");
+            navigate("/homePage");
             return;
         }
 

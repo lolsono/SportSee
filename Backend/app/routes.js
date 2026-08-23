@@ -66,6 +66,7 @@ router.get("/api/user-info", authenticateToken, (req, res) => {
     lastName: user.userInfos.lastName,
     createdAt: user.userInfos.createdAt,
     age: user.userInfos.age,
+    gender : user.userInfos.gender,
     weight: user.userInfos.weight,
     height: user.userInfos.height,
     profilePicture: user.userInfos.profilePicture,

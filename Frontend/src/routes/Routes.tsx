@@ -21,7 +21,7 @@ export default function AppRoutes() {
       <Route path="/login" element={<Login />} />
 
       <Route
-        path="/logOn"
+        path="/homePage"
         element={
           <ProtectedRoute>
             <HomePage />
