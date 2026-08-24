@@ -1,0 +1,80 @@
+/** Container général **/
+.BpmChart-container {
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+}
+
+
+/** Container du dessus **/
+.TopContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.ReadBpm h3 {
+    color: #F4320B;
+    font-size: 22px;
+    font-weight: 500px;
+    margin: 0px;
+}
+
+.ReadBpm p {
+    color: #707070;
+    font-size: 12px;
+    font-weight: 400px;
+    margin: 10px 0;
+}
+
+/** Sélecteur de la période **/
+.SelectWeek {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.SelectWeek p {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.SelectWeek button {
+    display: flex;
+    align-items: center;
+    border-radius: 10px;
+    height: 24px;
+    width: 24px;
+    border: solid 0.1mm #717171;
+    background-color: white;
+}
+
+.SelectWeek button:hover {
+    display: flex;
+    align-items: center;
+    border-radius: 10px;
+    height: 24px;
+    width: 24px;
+    border: solid 0.1mm #717171;
+    background-color: grey;
+    color: white;
+}
+
+
+/** Partie graphique **/
+.recharts-wrapper {
+    margin: 0px;
+    right: 24px;
+}
+
+.recharts-legend-wrapper {
+    right: 150px;
+    left: 0px;
+}

@@ -71,3 +71,36 @@ export async function GetDetailsUser(token) {
 
   return false;
 }
+
+/** Requête récup les stats pour graphique **/
+export async function GetStatsWeek(startWeek, endWeek, token) {
+
+    if (USE_MOCK) {
+        const user = data.userInfos.find(
+        user => user.token === token
+        );
+
+        if (user) {
+        return user;
+        }
+
+        return false;
+    }
+
+    const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/user-activity?startWeek=${startWeek}&endWeek=${endWeek}`,
+        {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+        }
+    );
+
+    if (response.ok) {
+        return await response.json();
+    }
+
+  return false;
+}

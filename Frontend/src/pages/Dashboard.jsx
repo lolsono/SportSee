@@ -2,6 +2,7 @@ import "../../public/Styles/dashboard.css";
 import { useAuth } from "../context/ContextAuth.jsx";
 import Footer from "../components/Footer.jsx";
 import NavBar from "../components/NavBar.jsx";
+import BpmChart from "../components/BpmChart.jsx";
 
 function Dashboard () {
 
@@ -45,6 +46,8 @@ function Dashboard () {
                     </div>
 
                 </div>
+
+                <BpmChart />
 
             </div>
 
