@@ -1,6 +1,6 @@
 import data from "../mocks/data.json";
 
-const USE_MOCK = false;
+const USE_MOCK = import.meta.env.VITE_USE_MOCK
 
 /**
  * Attention en mode mock bien se déconnecter puis reconnecter
@@ -11,7 +11,7 @@ const USE_MOCK = false;
 /** Requête pour les connexion utilisateur **/
 export async function GetUser(username, password) {
 
-  if (USE_MOCK) {
+  if (USE_MOCK === true) {
       const user = data.users.find(
           user => user.username === username
               && user.password === password
@@ -45,7 +45,7 @@ export async function GetUser(username, password) {
 /** Requête pour les details de l'utilisateur **/
 export async function GetDetailsUser(token) {
 
-    if (USE_MOCK) {
+    if (USE_MOCK === true) {
         const user = data.userInfos.find(
         user => user.token === token
         );
@@ -75,7 +75,7 @@ export async function GetDetailsUser(token) {
 /** Requête récup les stats pour graphique **/
 export async function GetStatsWeek(startWeek, endWeek, token) {
 
-    if (USE_MOCK) {
+    if (USE_MOCK === true) {
         const user = data.userInfos.find(
         user => user.token === token
         );
