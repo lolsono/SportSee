@@ -12,12 +12,12 @@ import { ComposedChart, Line, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
 function BpmChart () {
 
     // Gestion du sélecteur de date
-
     const [startWeek, setStartWeek] = useState(new Date(new Date().getFullYear(), 0, 5));
     const [endWeek, setendWeek] = useState(new Date(new Date().getFullYear(), 0, 11));
 
     // Gestion de récupération des valeurs pour le graphique
     const [stats, setStats] = useState([]);
+    const [averageBpm, setAverageBpm] = useState(0);
 
     useEffect(() => {
 
@@ -32,8 +32,10 @@ function BpmChart () {
                     max: item.heartRate?.max ?? null
                 }));
 
-                console.log(heartData);
                 setStats(heartData);
+
+                const averageBpm = calculateAverageBpm(heartData);
+                setAverageBpm(averageBpm);
             } catch (error) {
                 console.error("Erreur lors de la récupération des stats :", error);
             }
@@ -41,6 +43,19 @@ function BpmChart () {
 
         fetchStats();
     }, [startWeek, endWeek]);
+
+    //fonction de calcule de la moyenne
+    function calculateAverageBpm(heartData) {
+        
+        const totalBpm = heartData.reduce(
+            (total, item) => total + item.average,
+            0
+        );
+
+        const averageBpm = totalBpm / heartData.length;
+
+        return averageBpm;
+    }
 
     // Gestion du sélecteur de date
     function nextWeek() {
@@ -79,7 +94,7 @@ function BpmChart () {
         <div className='TopContainer'>
 
             <div className='ReadBpm'>
-                <h3>162 BPM</h3>
+                <h3>{averageBpm} BPM</h3>
                 <p>Fréquence cardiaque moyenne</p>
             </div>
 
@@ -89,12 +104,12 @@ function BpmChart () {
                 <p>
                     {startWeek.toLocaleDateString("fr-FR", {
                         day: "numeric",
-                        month: "long",
+                        month: "short",
                     })}
                     {" - "}
                     {endWeek.toLocaleDateString("fr-FR", {
                         day: "numeric",
-                        month: "long",
+                        month: "short",
                     })}
                 </p>
 
@@ -113,8 +128,11 @@ function BpmChart () {
                 left: 0,
             }}
             >
-            <CartesianGrid stroke="#f5f5f5" />
-                <XAxis
+            <CartesianGrid 
+                stroke="#f5f5f5" 
+                strokeDasharray="3 3" 
+            />
+            <XAxis
                 dataKey="date"
                 scale="band"
                 tickFormatter={(date) =>
@@ -125,10 +143,14 @@ function BpmChart () {
             />
             <YAxis />
             <Tooltip />
-            <Legend />
-            <Bar dataKey="min" barSize={20} fill="#FCC1B6" radius={30}/>
-            <Bar dataKey="max" barSize={20} fill="#F4320B" radius={30}/>
-            <Line type="monotone" dataKey="max" stroke="#0B23F4" />
+            <Legend 
+                wrapperStyle={{
+                    paddingRight: "140px"
+                }}
+            />
+            <Bar dataKey="min" name="Min" barSize={20} fill="#FCC1B6" radius={30}/>
+            <Bar dataKey="max" name="Max" barSize={20} fill="#F4320B" radius={30}/>
+            <Line type="monotone" dataKey="max" name="Max" stroke="#0B23F4" />
         </ComposedChart>
       </div>  
     );

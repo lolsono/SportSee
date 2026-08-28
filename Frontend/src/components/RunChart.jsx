@@ -12,12 +12,12 @@ import { ComposedChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, } fro
 function RunChart () {
 
     // Gestion du sélecteur de date
-
-    const [startWeek, setStartWeek] = useState(new Date(new Date().getFullYear(), 0, 5));
-    const [endWeek, setendWeek] = useState(new Date(new Date().getFullYear(), 0, 11));
+    const [startWeek, setStartWeek] = useState(new Date(new Date().getFullYear(), 0, 28));
+    const [endWeek, setendWeek] = useState(new Date(new Date().getFullYear(), 1, 28));
 
     // Gestion de récupération des valeurs pour le graphique
     const [stats, setStats] = useState([]);
+    const [averageDistance, setAverageDistance] = useState(0);
 
     useEffect(() => {
 
@@ -27,12 +27,42 @@ function RunChart () {
                 
                 const RunData = data.map(item => ({
                     date: item.date,
-                    dist: item.distance ?? null,
-                    duration: item.duration ?? null
+                    dist: item.distance ?? 0,
+                    duration: item.duration ?? 0
                 }));
 
-                console.log(RunData);
-                setStats(RunData);
+                // Regroupement des distances par semaine
+                const weeklyData = [
+                    { week: "S1", dist: 0 },
+                    { week: "S2", dist: 0 },
+                    { week: "S3", dist: 0 },
+                    { week: "S4", dist: 0 }
+                ];
+
+                RunData.forEach(item => {
+
+                    const date = new Date(item.date);
+
+                    const difference = Math.floor(
+                        (date - startWeek) / (1000 * 60 * 60 * 24)
+                    );
+
+                    let weekIndex = Math.floor(difference / 7);
+
+                    if (weekIndex > 3) {
+                        weekIndex = 3;
+                    }
+
+                    if (weekIndex >= 0) {
+                        weeklyData[weekIndex].dist += item.dist;
+                    }
+                });
+
+                setStats(weeklyData);
+
+                const averageDistance = calculateAverageDistance(weeklyData);
+                setAverageDistance(averageDistance);
+
             } catch (error) {
                 console.error("Erreur lors de la récupération des stats :", error);
             }
@@ -41,17 +71,34 @@ function RunChart () {
         fetchStats();
     }, [startWeek, endWeek]);
 
+    //fonction de calcule de la moyenne
+    function calculateAverageDistance(RunData) {
+        
+        const totalDistance = RunData.reduce(
+            (total, item) => total + item.dist,
+            0
+        );
+
+        if (RunData.length === 0) {
+            return 0;
+        }
+
+        const averageDistance = totalDistance / RunData.length;
+
+        return averageDistance;
+    }
+
     // Gestion du sélecteur de date
     function nextWeek() {
         setStartWeek(prev => {
             const date = new Date(prev);
-            date.setDate(date.getDate() + 7);
+            date.setMonth(date.getMonth() + 1);
             return date;
         });
 
         setendWeek(prev => {
             const date = new Date(prev);
-            date.setDate(date.getDate() + 7);
+            date.setMonth(date.getMonth() + 1);
             return date;
         });
     }
@@ -59,18 +106,16 @@ function RunChart () {
     function previousWeek() {
         setStartWeek(prev => {
             const date = new Date(prev);
-            date.setDate(date.getDate() - 7);
+            date.setMonth(date.getMonth() - 1);
             return date;
         });
 
         setendWeek(prev => {
             const date = new Date(prev);
-            date.setDate(date.getDate() - 7);
+            date.setMonth(date.getMonth() - 1);
             return date;
         });
     }
-
-    console.log("STATS :", stats);
 
     return (
       <div className='runChart-container'>
@@ -78,8 +123,8 @@ function RunChart () {
         <div className='TopContainer'>
 
             <div className='runBpm'>
-                <h3>18km en moyenne</h3>
-                <p>Total des kilomètres 4 dernières semaines</p>
+                <h3>{averageDistance.toFixed(1)} Km en moyenne</h3>
+                <p>Total des kilomètres du mois</p>
             </div>
 
             <div className='SelectWeek'> 
@@ -88,12 +133,12 @@ function RunChart () {
                 <p>
                     {startWeek.toLocaleDateString("fr-FR", {
                         day: "numeric",
-                        month: "long",
+                        month: "short",
                     })}
                     {" - "}
                     {endWeek.toLocaleDateString("fr-FR", {
                         day: "numeric",
-                        month: "long",
+                        month: "short",
                     })}
                 </p>
 
@@ -112,20 +157,22 @@ function RunChart () {
                 left: 0,
             }}
             >
-            <CartesianGrid stroke="#f5f5f5" />
-                <XAxis
-                dataKey="date"
+            <CartesianGrid 
+                stroke="#f5f5f5"
+                strokeDasharray="3 3" 
+            />
+            <XAxis
+                dataKey="week"
                 scale="band"
-                tickFormatter={(date) =>
-                    new Date(date).toLocaleDateString("fr-FR", {
-                        weekday: "long"
-                    })
-                }
             />
             <YAxis />
             <Tooltip />
-            <Legend />
-            <Bar dataKey="dist" barSize={20} fill="#B6BDFC" radius={30}/>
+            <Legend
+                wrapperStyle={{
+                    paddingRight: "250px"
+                }}
+            />
+            <Bar dataKey="dist" name="Dist" barSize={20} fill="#B6BDFC" radius={30}/>
         </ComposedChart>
       </div>  
     );

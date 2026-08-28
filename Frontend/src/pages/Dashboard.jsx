@@ -47,10 +47,9 @@ function Dashboard () {
                     </div>
 
                 </div>
-
-                <h2>Vos dernières performances</h2>
-
+                  
                 <div className="chart-container">
+                    <h2>Vos dernières performances</h2>
                     <RunChart />
                     <BpmChart />
                 </div>

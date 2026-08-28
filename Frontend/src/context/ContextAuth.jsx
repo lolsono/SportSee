@@ -12,7 +12,6 @@ import getCookie from "../services/CookieServices";
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
-    console.log("🔥 AUTH PROVIDER RENDU");
     const [userDetails, setUserDetails] = useState(null);
     const [loading, setLoading] = useState(true);
 
@@ -23,8 +22,6 @@ export function AuthProvider({ children }) {
 
             const token = getCookie("token");
 
-            console.log("TOKEN AU DEMARRAGE :", token);
-
             if (!token) {
                 setLoading(false);
                 return;
@@ -32,13 +29,8 @@ export function AuthProvider({ children }) {
 
             try {
                 const details = await UserServices(token);
-
-                console.log("DETAILS AU DEMARRAGE :", details);
-
                 setUserDetails(details || null);
-
             } catch (error) {
-                console.error("ERREUR LOAD USER :", error);
                 setUserDetails(null);
             } finally {
                 setLoading(false);
@@ -66,7 +58,6 @@ export function AuthProvider({ children }) {
             return false;
         }
 
-        console.log(details);
         setUserDetails(details);
 
         return true;

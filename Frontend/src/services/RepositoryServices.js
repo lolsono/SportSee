@@ -65,12 +65,7 @@ export async function GetDetailsUser(token) {
         }
     );
 
-    console.log("Token envoyé :", token);
-    console.log("Status :", response.status);
-    console.log("Status text :", response.statusText);
-
     const text = await response.text();
-    console.log("Réponse serveur :", text);
 
     if (response.ok) {
         return JSON.parse(text);
