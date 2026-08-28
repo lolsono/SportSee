@@ -3,6 +3,7 @@ import { useAuth } from "../context/ContextAuth.jsx";
 import Footer from "../components/Footer.jsx";
 import NavBar from "../components/NavBar.jsx";
 import BpmChart from "../components/BpmChart.jsx";
+import RunChart from "../components/RunChart.jsx"
 
 function Dashboard () {
 
@@ -47,7 +48,12 @@ function Dashboard () {
 
                 </div>
 
-                <BpmChart />
+                <h2>Vos dernières performances</h2>
+
+                <div className="chart-container">
+                    <RunChart />
+                    <BpmChart />
+                </div>
 
             </div>
 

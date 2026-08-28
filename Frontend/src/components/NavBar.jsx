@@ -1,6 +1,7 @@
 import "../../public/Styles/navbar.css";
 import Logo from "../../public/Images/Logo.svg";
 import { useAuth } from "../context/ContextAuth";
+import { Link } from "react-router";
 
 function Navbar() {
 
@@ -13,8 +14,9 @@ function Navbar() {
             </div>
 
             <nav className="navbar-menu">
-                <a href="/dashboard">Dashboard</a>
-                <a href="/homePage">Mon profil</a>
+                <Link to="/dashboard">Dashboard</Link>
+
+                <Link to="/homePage">Mon profil</Link>
 
                 <span className="navbar-separator"></span>
 
