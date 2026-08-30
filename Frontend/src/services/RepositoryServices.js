@@ -12,7 +12,7 @@ const USE_MOCK = import.meta.env.VITE_USE_MOCK
 /** Requête pour les connexion utilisateur **/
 export async function GetUser(username, password) {
 
-  if (USE_MOCK === true) {
+  if (USE_MOCK === "true") {
       const user = data.users.find(
           user => user.username === username
               && user.password === password
@@ -46,7 +46,7 @@ export async function GetUser(username, password) {
 /** Requête pour les details de l'utilisateur **/
 export async function GetDetailsUser(token) {
 
-    if (USE_MOCK === true) {
+    if (USE_MOCK === "true") {
         const user = data.userInfos.find(
             user => user.token === token
         );
@@ -78,16 +78,37 @@ export async function GetDetailsUser(token) {
 /** Requête récup les stats pour graphique **/
 export async function GetStatsWeek(startWeek, endWeek) {
 
-    if (USE_MOCK === true) {
+    if (USE_MOCK === "true") {
+
         const user = data.userInfos.find(
-        user => user.token === token
+            user => user.token === getCookie("token")
         );
 
-        if (user) {
-        return user;
+        if (!user) {
+            console.log("Utilisateur introuvable");
+            return false;
         }
 
-        return false;
+        // On transforme les dates en YYYY-MM-DD
+        const formatDate = (date) => {
+            if (date instanceof Date) {
+                return date.toISOString().split("T")[0];
+            }
+
+            return String(date).split("T")[0];
+        };
+
+        const startDate = formatDate(startWeek);
+        const endDate = formatDate(endWeek);
+
+        const stats = user.runningData.filter((activity) => {
+
+            const activityDate = formatDate(activity.date);
+
+            return activityDate >= startDate && activityDate <= endDate;
+        });
+
+        return stats;
     }
 
     const response = await fetch(

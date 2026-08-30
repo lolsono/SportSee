@@ -28,7 +28,7 @@
         "lastName": "Martin",
         "age": 32,
         "gender": "female",
-        "profilePicture": "http://localhost:8000/images/sophie.jpg",
+        "profilePicture": "http://localhost:5173/Images/sophie.jpg",
         "height": 165,
         "weight": 60,
         "createdAt": "2025-01-01"
