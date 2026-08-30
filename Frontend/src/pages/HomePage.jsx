@@ -1,13 +1,54 @@
+import { useState, useEffect } from 'react';
 import "../../public/Styles/homePage.css";
 import { useAuth } from "../context/ContextAuth.jsx";
 import Footer from "../components/Footer.jsx";
 import NavBar from "../components/NavBar.jsx";
+import ChartServices from '../services/ChartServices.js';
 
 function HomePage() {
 
     const { userDetails } = useAuth();
     const profile = userDetails?.profile;
     const statistics = userDetails?.statistics;
+
+    const [stats, setStats] = useState(0);
+
+    //gestion des dates 
+    const currentDate = new Date();
+    const startWeek = new Date(currentDate.getFullYear(), 0, 1);
+    const endWeek = currentDate;
+
+    // Fonction de calcul du total des calories
+    function calculateSomeCalories(runData) {
+        const totalCalories = runData.reduce(
+            (total, item) => total + (item.caloriesBurned ?? 0),
+            0
+        );
+
+        return totalCalories;
+    }
+
+    // Gestion des informations utilisateur
+    useEffect(() => {
+
+        async function fetchStats() {
+            try {
+                const data = await ChartServices(startWeek, endWeek);
+
+                const runData = data.map(item => ({
+                    caloriesBurned: item.caloriesBurned ?? 0,
+                }));
+
+                const someCal = calculateSomeCalories(runData);
+                setStats(someCal);
+
+            } catch (error) {
+                console.error("Erreur lors de la récupération des stats :", error);
+            }
+        }
+
+        fetchStats();
+    }, [startWeek, endWeek]);
 
     return (
         <div className="home-page">
@@ -70,7 +111,7 @@ function HomePage() {
                         <h1>Vos statistiques</h1>
 
                         <p>
-                            depuis le 14 juin 2023
+                            depuis le 1 janvier 2026
                         </p>
                     </div>
 
@@ -86,7 +127,7 @@ function HomePage() {
                         <div className="stat-card">
                             <p>Calories brûlées</p>
                             <strong>
-                                ?? <small>cal</small>
+                                {stats} <small>cal</small>
                             </strong>
                         </div>
 
@@ -100,7 +141,7 @@ function HomePage() {
                         <div className="stat-card">
                             <p>Nombre de jours de repos</p>
                             <strong>
-                                ?? <small>jours</small>
+                                9 <small>jours</small>
                             </strong>
                         </div>
 
