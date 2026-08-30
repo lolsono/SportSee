@@ -20,22 +20,24 @@
     padding: 20px 30px;
     display: flex;
     align-items: center;
-    background-color: #ffffff;
+    background: linear-gradient(
+        to bottom,
+        #ffffff 0%,
+        rgba(255, 255, 255, 0) 120%
+    );
     border-radius: 20px;
     box-sizing: border-box;
-    margin-bottom: 70px;
+    margin-bottom: 60px;
 }
+
 
 /** Photo utilisateur **/
 
 .dashboard-user-picture {
     width: 65px;
     height: 65px;
-
     object-fit: cover;
-
     border-radius: 5px;
-
     flex-shrink: 0;
 }
 
@@ -43,7 +45,6 @@
 
 .dashboard-user-info {
     margin-left: 22px;
-
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -51,24 +52,19 @@
 
 .dashboard-user-info h2 {
     margin: 0;
-
     font-size: 16px;
     font-weight: 500;
-
     color: #111111;
 }
 
 .dashboard-user-info p {
     margin: 5px 0 0;
-
     font-size: 9px;
-
     color: #888888;
 }
 
 .dashboard-distance {
     margin-left: auto;
-
     display: flex;
     align-items: center;
     gap: 20px;
@@ -125,4 +121,164 @@
 .chart-container .BpmChart-container {
     width: 495px;
     height: 400px;
+}
+
+/** graphique de la semaine **/
+
+.week-section {
+    width: 100%;
+    max-width: 1000px;
+    margin: 40px auto;
+}
+
+.week-title {
+    margin-bottom: 25px;
+}
+
+.week-title h2 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.weekGoal-chart .recharts-wrapper {
+    right: 0px !important;
+}
+
+.week-title p {
+    margin: 5px 0 0;
+    color: #666;
+    font-size: 13px;
+}
+
+
+.week-content {
+    width: 100%;
+    display: flex;
+    gap: 22px;
+    align-items: flex-start;
+}
+
+
+.week-goal-card {
+    width: 40%;
+    min-height: 260px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 20px 30px;
+    box-sizing: border-box;
+}
+
+
+.week-goal-header h3 {
+    margin: 0;
+    display: flex;
+    align-items: baseline;
+    gap: 5px;
+}
+
+.week-goal-header h3 strong {
+    color: #1717F5;
+    font-size: 20px;
+}
+
+.week-goal-header h3 span {
+    color: #B6BDFC;
+    font-size: 13px;
+    font-weight: 400;
+}
+
+.week-goal-header p {
+    margin: 7px 0 0;
+    color: #777;
+    font-size: 11px;
+}
+
+
+.week-statistics {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+
+.week-stat-card {
+    width: 100%;
+    height: 78px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 15px 22px;
+    box-sizing: border-box;
+}
+
+.week-stat-card p {
+    margin: 0 0 10px;
+    color: #777;
+    font-size: 11px;
+}
+
+.week-stat-card strong {
+    color: #1717F5;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.week-stat-card strong span {
+    color: #B6BDFC;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.week-stat-card strong.distance {
+    color: #ff4b35;
+}
+
+
+.weekGoal-chart {
+    position: relative;
+    width: 100%;
+    height: 190px;
+}
+
+.weekGoal-legend {
+    position: absolute;
+    top: 35px;
+    left: 0;
+    width: 100%;
+    height: 120px;
+    pointer-events: none;
+}
+
+.weekGoal-legend p {
+    position: absolute;
+    margin: 0;
+    font-size: 9px;
+    color: #777;
+}
+
+.weekGoal-legend p:first-child {
+    left: 30px;
+    bottom: 5px;
+}
+
+.weekGoal-legend p:last-child {
+    right: 40px;
+    top: 10px;
+}
+
+.legend-dot {
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    margin-right: 4px;
+}
+
+.legend-dot.done {
+    background-color: #1717F5;
+}
+
+.legend-dot.remaining {
+    background-color: #B6BDFC;
 }
