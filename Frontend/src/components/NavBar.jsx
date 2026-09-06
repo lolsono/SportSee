@@ -1,33 +1,48 @@
 import "../../public/Styles/navbar.css";
 import Logo from "../../public/Images/Logo.svg";
-import { useAuth } from "../context/ContextAuth";
-import { Link } from "react-router";
+import { Link, useFetcher } from "react-router";
 
 function Navbar() {
 
-    const { logOut } = useAuth();
+    const fetcher = useFetcher();
+
+    const handleLogout = () => {
+        console.log("envoie de logout");
+        fetcher.submit(null, {
+            method: "POST",
+            action: "/api/logout",
+        });
+    };
 
     return (
         <header className="navbar">
+
             <div className="navbar-logo">
                 <img src={Logo} alt="Sportsee" />
             </div>
 
             <nav className="navbar-menu">
-                <Link to="/dashboard">Dashboard</Link>
 
-                <Link to="/homePage">Mon profil</Link>
+                <Link to="/dashboard">
+                    Dashboard
+                </Link>
+
+                <Link to="/homePage">
+                    Mon profil
+                </Link>
 
                 <span className="navbar-separator"></span>
 
-                <a
-                    href="/"
+                <button
+                    type="button"
                     className="logout"
-                    onClick={logOut}
+                    onClick={handleLogout}
                 >
                     Se déconnecter
-                </a>
+                </button>
+
             </nav>
+
         </header>
     );
 }

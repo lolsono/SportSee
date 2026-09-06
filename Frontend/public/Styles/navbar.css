@@ -51,7 +51,16 @@
 }
 
 .navbar-menu .logout {
+    cursor: pointer;
     color: #0718f9;
+    border: none;
+    background-color: transparent;
+}
+
+.navbar-menu .logout:hover {
+    color: black;
+    border: none;
+    background-color: transparent;
 }
 
 .navbar-separator {

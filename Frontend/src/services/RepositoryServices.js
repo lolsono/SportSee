@@ -1,52 +1,66 @@
 import data from "../mocks/data.json";
 import getCookie from "./CookieServices";
 
-const USE_MOCK = import.meta.env.VITE_USE_MOCK
+const USE_MOCK = import.meta.env.VITE_USE_MOCK;
 
 /**
  * Attention en mode mock bien se déconnecter puis reconnecter
  * Car le token ne change pas il est figé.
- * Sinon ça bloque les recherches via le token
+ * Sinon ça bloque les recherches via le token.
  */
 
-/** Requête pour les connexion utilisateur **/
+/**
+ * Requête de connexion utilisateur
+ */
 export async function GetUser(username, password) {
 
-  if (USE_MOCK === "true") {
-      const user = data.users.find(
-          user => user.username === username
-              && user.password === password
-      );
+    if (USE_MOCK === "true") {
 
-      if (user) {
-          return user;
-      }
+        const user = data.users.find(
+            user =>
+                user.username === username &&
+                user.password === password
+        );
 
-      return false;
-  }
+        if (user) {
+            return user;
+        }
 
-  const response = await fetch(`${import.meta.env.VITE_API_URL}/api/login`, {
-      method: "POST",
-      headers: {
-          "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-          username,
-          password
-      })
-  });
+        return false;
+    }
 
-  if (response.ok) {
-    return await response.json();
-  }
+    const response = await fetch(
+        `${process.env.API_URL}/api/login`,
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                username,
+                password,
+            }),
+        }
+    );
 
-  return false;
+    if (response.ok) {
+        return await response.json();
+    }
+
+    return false;
 }
 
-/** Requête pour les details de l'utilisateur **/
-export async function GetDetailsUser(token) {
+
+/**
+ * Requête pour récupérer les détails de l'utilisateur connecté
+ */
+export async function GetDetailsUser() {
+
 
     if (USE_MOCK === "true") {
+
+        const token = getCookie("token");
+
         const user = data.userInfos.find(
             user => user.token === token
         );
@@ -54,34 +68,30 @@ export async function GetDetailsUser(token) {
         return user || false;
     }
 
-    const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/user-info`,
-        {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
-            }
-        }
-    );
-
-    const text = await response.text();
+    const response = await fetch("/api/user", {
+        method: "GET",
+        credentials: "include"
+    });
 
     if (response.ok) {
-        return JSON.parse(text);
+        return await response.json();
     }
 
     return false;
 }
 
 
-/** Requête récup les stats pour graphique **/
+/**
+ * Requête pour récupérer les statistiques de la semaine
+ */
 export async function GetStatsWeek(startWeek, endWeek) {
 
     if (USE_MOCK === "true") {
 
+        const token = getCookie("token");
+
         const user = data.userInfos.find(
-            user => user.token === getCookie("token")
+            user => user.token === token
         );
 
         if (!user) {
@@ -89,8 +99,9 @@ export async function GetStatsWeek(startWeek, endWeek) {
             return false;
         }
 
-        // On transforme les dates en YYYY-MM-DD
+        // Transformation des dates en YYYY-MM-DD
         const formatDate = (date) => {
+
             if (date instanceof Date) {
                 return date.toISOString().split("T")[0];
             }
@@ -105,21 +116,20 @@ export async function GetStatsWeek(startWeek, endWeek) {
 
             const activityDate = formatDate(activity.date);
 
-            return activityDate >= startDate && activityDate <= endDate;
+            return (
+                activityDate >= startDate &&
+                activityDate <= endDate
+            );
         });
 
         return stats;
     }
 
     const response = await fetch(
-
-        `${import.meta.env.VITE_API_URL}/api/user-activity?startWeek=${startWeek}&endWeek=${endWeek}`,
+        `/api/user-activity?startWeek=${startWeek}&endWeek=${endWeek}`,
         {
             method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${getCookie("token")}`
-            },
+            credentials: "include"
         }
     );
 
@@ -127,5 +137,5 @@ export async function GetStatsWeek(startWeek, endWeek) {
         return await response.json();
     }
 
-  return false;
+    return false;
 }

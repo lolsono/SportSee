@@ -1,9 +1,9 @@
 import { GetDetailsUser } from './RepositoryServices.js';
 
 /** Recup les infos utilisateur **/
-async function UserServices(token) {
+async function UserServices() {
     
-    const details = await GetDetailsUser(token);
+    const details = await GetDetailsUser();
 
     if (details) {
         return details;

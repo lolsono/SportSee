@@ -1,9 +1,16 @@
 import { useState, useEffect } from 'react';
 import "../../public/Styles/homePage.css";
-import { useAuth } from "../context/ContextAuth.jsx";
 import Footer from "../components/Footer.jsx";
 import NavBar from "../components/NavBar.jsx";
 import ChartServices from '../services/ChartServices.js';
+import { useAuth } from '../context/ContextAuth.jsx';
+import { requireAuth } from "../services/AuthServices.server.js";
+
+export async function loader({ request }) {
+    await requireAuth({ request });
+
+    return null;
+}
 
 function HomePage() {
 
@@ -13,7 +20,7 @@ function HomePage() {
 
     const [stats, setStats] = useState(0);
 
-    //gestion des dates 
+    // Gestion des dates
     const currentDate = new Date();
     const startWeek = new Date(currentDate.getFullYear(), 0, 1);
     const endWeek = currentDate;
@@ -28,27 +35,39 @@ function HomePage() {
         return totalCalories;
     }
 
-    // Gestion des informations utilisateur
+    // Récupération des statistiques
     useEffect(() => {
 
         async function fetchStats() {
+
             try {
-                const data = await ChartServices(startWeek, endWeek);
+
+                const data = await ChartServices(
+                    startWeek,
+                    endWeek
+                );
 
                 const runData = data.map(item => ({
                     caloriesBurned: item.caloriesBurned ?? 0,
                 }));
 
                 const someCal = calculateSomeCalories(runData);
+
                 setStats(someCal);
 
             } catch (error) {
-                console.error("Erreur lors de la récupération des stats :", error);
+
+                console.error(
+                    "Erreur lors de la récupération des stats :",
+                    error
+                );
+
             }
         }
 
         fetchStats();
-    }, [startWeek, endWeek]);
+
+    }, []);
 
     return (
         <div className="home-page">
@@ -69,18 +88,25 @@ function HomePage() {
                         />
 
                         <div className="user-info">
+
                             <h2>
                                 {profile?.firstName} {profile?.lastName}
                             </h2>
 
                             <p>
-                            Membre depuis le{" "}
-                            {new Date(profile?.createdAt).toLocaleDateString("fr-FR", {
-                                day: "numeric",
-                                month: "long",
-                                year: "numeric",
-                            })}
+                                Membre depuis le{" "}
+                                {profile?.createdAt &&
+                                    new Date(profile.createdAt).toLocaleDateString(
+                                        "fr-FR",
+                                        {
+                                            day: "numeric",
+                                            month: "long",
+                                            year: "numeric",
+                                        }
+                                    )
+                                }
                             </p>
+
                         </div>
 
                     </div>
@@ -94,10 +120,17 @@ function HomePage() {
                         <div className="profile-information">
 
                             <p>Âge : {profile?.age}</p>
-                            <p>Genre : {profile?.gender === "female" ? "Femme" : "Homme"}</p>
+
+                            <p>
+                                Genre : {
+                                    profile?.gender === "female"
+                                        ? "Femme"
+                                        : "Homme"
+                                }
+                            </p>
+
                             <p>Taille : {profile?.height}</p>
                             <p>Poids : {profile?.weight}</p>
-
                         </div>
 
                     </div>
@@ -109,47 +142,61 @@ function HomePage() {
 
                     <div className="statistics-title">
                         <h1>Vos statistiques</h1>
-
-                        <p>
-                            depuis le 1 janvier 2026
-                        </p>
+                        <p>depuis le 1 janvier 2026</p>
                     </div>
 
                     <div className="statistics-grid">
 
                         <div className="stat-card">
-                            <p>Temps total couru</p>
+
+                            <p>
+                                Temps total couru
+                            </p>
+
                             <strong>
-                                {statistics?.totalDuration} <span>h</span>
+                                {statistics?.totalDuration}
+                                <span> h</span>
                             </strong>
+
                         </div>
 
                         <div className="stat-card">
+
                             <p>Calories brûlées</p>
+
                             <strong>
-                                {stats} <small>cal</small>
+                                {stats}
+                                <small> cal</small>
                             </strong>
+
                         </div>
 
                         <div className="stat-card">
+
                             <p>Distance totale parcourue</p>
+
                             <strong>
-                                {statistics?.totalDistance} <small>km</small>
+                                {statistics?.totalDistance}
+                                <small> km</small>
                             </strong>
+
                         </div>
 
                         <div className="stat-card">
                             <p>Nombre de jours de repos</p>
-                            <strong>
-                                9 <small>jours</small>
-                            </strong>
+                            <strong>9 <small> jours</small></strong>
+
                         </div>
 
                         <div className="stat-card">
+
                             <p>Nombre de sessions</p>
+
                             <strong>
-                                 {statistics?.totalSessions} <small>sessions</small>
+                                {statistics?.totalSessions}
+                                <small> sessions</small>
                             </strong>
+
                         </div>
 
                     </div>

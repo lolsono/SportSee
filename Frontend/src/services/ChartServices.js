@@ -1,17 +1,17 @@
-import { GetStatsWeek } from "./RepositoryServices";
+async function ChartServices(startWeek, endWeek) {
 
-/** Function pour recup les info de 1 semaine **/
-async function ChartServices (startWeek, endWeek) {
+    const startDate = startWeek.toISOString().split("T")[0];
+    const endDate = endWeek.toISOString().split("T")[0];
 
-    const token = localStorage.getItem("token");
+    const response = await fetch(
+        `/api/user-activity?startWeek=${startDate}&endWeek=${endDate}`
+    );
 
-    const stats = await GetStatsWeek(startWeek, endWeek, token)
-
-    if (stats) {
-        return stats;
+    if (!response.ok) {
+        return false;
     }
 
-    return false;
+    return await response.json();
 }
 
 export default ChartServices;

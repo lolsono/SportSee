@@ -24,6 +24,7 @@ function BpmChart () {
         async function fetchStats() {
             try {
                 const data = await ChartServices(startWeek, endWeek);
+                console.log(data);
                 
                 const heartData = data.map(item => ({
                     date: item.date,

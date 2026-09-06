@@ -5,6 +5,13 @@ import NavBar from "../components/NavBar.jsx";
 import BpmChart from "../components/BpmChart.jsx";
 import RunChart from "../components/RunChart.jsx"
 import WeekGoalChart from "../components/WeekGoalChart.jsx";
+import { requireAuth } from "../services/AuthServices.server.js";
+
+export async function loader({ request }) {
+    await requireAuth({ request });
+
+    return null;
+}
 
 function Dashboard () {
 

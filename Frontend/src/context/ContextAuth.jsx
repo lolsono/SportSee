@@ -5,77 +5,79 @@ import {
     useState
 } from "react";
 
-import AuthServices from "../services/AuthServices";
 import UserServices from "../services/UserServices";
-import getCookie from "../services/CookieServices";
 
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
+
     const [userDetails, setUserDetails] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    // Vérification au démarrage de l'application
     useEffect(() => {
 
         async function loadUser() {
 
-            const token = getCookie("token");
-
-            if (!token) {
-                setLoading(false);
-                return;
-            }
-
             try {
-                const details = await UserServices(token);
+                const details = await UserServices();
+
                 setUserDetails(details || null);
+
             } catch (error) {
+
+                console.error("Erreur UserServices :", error);
+
                 setUserDetails(null);
+
             } finally {
+
                 setLoading(false);
             }
         }
 
         loadUser();
+
     }, []);
 
+    const logOut = async () => {
 
-    // Connexion
-    const login = async (email, password) => {
+        console.log("CONTEXT : logout appelé");
 
-        const user = await AuthServices(email, password);
+        try {
 
-        if (!user) {
+            const response = await fetch("/logout", {
+                method: "POST",
+            });
+
+            console.log(
+                "CONTEXT : réponse logout",
+                response.status
+            );
+
+            if (!response.ok) {
+                return false;
+            }
+
+            setUserDetails(null);
+
+            return true;
+
+        } catch (error) {
+
+            console.error(
+                "CONTEXT : erreur logout",
+                error
+            );
+
             return false;
         }
-
-        const token = getCookie("token");
-
-        const details = await UserServices(token);
-
-        if (!details) {
-            return false;
-        }
-
-        setUserDetails(details);
-
-        return true;
     };
-
-    // Déconnexion
-    const logOut = () => {
-        document.cookie = "token=; Max-Age=0; path=/";
-        setUserDetails(null);
-        return true;
-    }
 
     return (
         <AuthContext.Provider
             value={{
                 userDetails,
                 loading,
-                login,
                 logOut
             }}
         >
@@ -83,7 +85,6 @@ export function AuthProvider({ children }) {
         </AuthContext.Provider>
     );
 }
-
 
 export function useAuth() {
     return useContext(AuthContext);

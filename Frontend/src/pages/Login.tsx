@@ -1,62 +1,77 @@
-import '../../public/Styles/login.css'
-import { useNavigate } from "react-router";
-import { useState } from "react";
-import { useAuth } from '../context/ContextAuth';
-import Logo from '../../public/Images/Logo.svg';
-import Background_picture from '../../public/Images/Background_picture.svg';
+import "../../public/Styles/login.css";
 
-function Login() {
+import { Form, redirect, useActionData, } from "react-router";
+import Logo from "../../public/Images/Logo.svg";
+import Background_picture from "../../public/Images/Background_picture.svg";
+import AuthServices from "../services/AuthServices.server";
 
-    const navigate = useNavigate();
-    const { login } = useAuth();
+export async function action({ request }) {
+    const formData = await request.formData();
 
-    const [error, setError] = useState("");
+    const email = formData.get("email");
+    const password = formData.get("password");
 
-    async function getForms(formData) {
-        const email = formData.get("email");
-        const password = formData.get("password");
+    const userLogged = await AuthServices(email, password);
 
-        const result = await login(email, password);
-
-        if (result) {
-            navigate("/homePage");
-            return;
-        }
-
-        setError("Identifiant incorrect !");
+    if (!userLogged.authenticated) {
+        return {
+            error: "Identifiant incorrect !",
+        };
     }
-    
+
+    return redirect("/homePage", {
+        headers: {
+            "Set-Cookie": userLogged.cookie,
+        },
+    });
+}
+
+export default function Login() {
+    const actionData = useActionData();
+
     return (
         <div className="login-container">
 
             <div className="left-content">
+
                 <img src={Logo} alt="logo" />
 
-                <form className="login-form" action={getForms}>
+                <Form
+                    method="post"
+                    className="login-form"
+                >
                     <h2>Transformez vos stats en résultats</h2>
                     <p>Se connecter</p>
 
-                    {error && (
+                    {actionData?.error && (
                         <p className="login-error">
-                            {error}
+                            {actionData.error}
                         </p>
                     )}
 
                     <div className="form-group">
-                        <label htmlFor="email">Email</label>
+                        <label htmlFor="email">
+                            Email
+                        </label>
+
                         <input
                             type="name"
                             id="email"
                             name="email"
+                            required
                         />
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="password">Mot de passe</label>
+                        <label htmlFor="password">
+                            Mot de passe
+                        </label>
+
                         <input
                             type="password"
                             id="password"
                             name="password"
+                            required
                         />
                     </div>
 
@@ -64,21 +79,27 @@ function Login() {
                         Se connecter
                     </button>
 
-                    <p className='forget-password'>Mot de passe oublié ?</p>
-                </form>
+                    <p className="forget-password">
+                        Mot de passe oublié ?
+                    </p>
+                </Form>
+
             </div>
 
             <div className="right-content">
+
                 <img
                     src={Background_picture}
                     alt="background"
                 />
-                <p>Analysez vos performances en un clin d’œil, suivez vos progrès et atteignez vos objectifs.</p>
+
+                <p>
+                    Analysez vos performances en un clin d’œil,
+                    suivez vos progrès et atteignez vos objectifs.
+                </p>
+
             </div>
 
         </div>
-    )
-
+    );
 }
-
-export default Login;
