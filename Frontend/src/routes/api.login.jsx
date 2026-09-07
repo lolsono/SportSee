@@ -1,13 +1,15 @@
 import { redirect } from "react-router";
 import { authCookie } from "../cookies.server";
+import data from "../mocks/data.json";
 
 export async function action({ request }) {
+
     const formData = await request.formData();
 
     const username = formData.get("email");
     const password = formData.get("password");
 
-    // Appel du backend
+    // MODE API
     const response = await fetch(
         `${process.env.API_URL}/api/login`,
         {
@@ -16,20 +18,19 @@ export async function action({ request }) {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                username: username,
+                username,
                 password,
             }),
         }
     );
 
-    // Identifiants incorrects
     if (!response.ok) {
         return {
             error: "Identifiant incorrect !",
         };
     }
 
-    const user = await response.json();
+    user = await response.json();
 
     // Vérification du token
     if (!user?.token) {

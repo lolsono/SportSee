@@ -1,5 +1,4 @@
 import data from "../mocks/data.json";
-import getCookie from "./CookieServices";
 
 const USE_MOCK = import.meta.env.VITE_USE_MOCK;
 
@@ -56,22 +55,13 @@ export async function GetUser(username, password) {
  */
 export async function GetDetailsUser() {
 
-
-    if (USE_MOCK === "true") {
-
-        const token = getCookie("token");
-
-        const user = data.userInfos.find(
-            user => user.token === token
-        );
-
-        return user || false;
-    }
-
-    const response = await fetch("/api/user", {
-        method: "GET",
-        credentials: "include"
-    });
+    const response = await fetch(
+        `/api/user`,
+        {
+            method: "GET",
+            credentials: "include",
+        }
+    );
 
     if (response.ok) {
         return await response.json();
@@ -85,51 +75,11 @@ export async function GetDetailsUser() {
  * Requête pour récupérer les statistiques de la semaine
  */
 export async function GetStatsWeek(startWeek, endWeek) {
-
-    if (USE_MOCK === "true") {
-
-        const token = getCookie("token");
-
-        const user = data.userInfos.find(
-            user => user.token === token
-        );
-
-        if (!user) {
-            console.log("Utilisateur introuvable");
-            return false;
-        }
-
-        // Transformation des dates en YYYY-MM-DD
-        const formatDate = (date) => {
-
-            if (date instanceof Date) {
-                return date.toISOString().split("T")[0];
-            }
-
-            return String(date).split("T")[0];
-        };
-
-        const startDate = formatDate(startWeek);
-        const endDate = formatDate(endWeek);
-
-        const stats = user.runningData.filter((activity) => {
-
-            const activityDate = formatDate(activity.date);
-
-            return (
-                activityDate >= startDate &&
-                activityDate <= endDate
-            );
-        });
-
-        return stats;
-    }
-
     const response = await fetch(
         `/api/user-activity?startWeek=${startWeek}&endWeek=${endWeek}`,
         {
             method: "GET",
-            credentials: "include"
+            credentials: "include",
         }
     );
 
@@ -139,3 +89,4 @@ export async function GetStatsWeek(startWeek, endWeek) {
 
     return false;
 }
+
