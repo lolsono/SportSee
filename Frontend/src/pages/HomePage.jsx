@@ -14,7 +14,8 @@ export async function loader({ request }) {
 
 function HomePage() {
 
-    const { userDetails } = useAuth();
+    const { userDetails, loading } = useAuth();
+
     const profile = userDetails?.profile;
     const statistics = userDetails?.statistics;
 
@@ -27,6 +28,7 @@ function HomePage() {
 
     // Fonction de calcul du total des calories
     function calculateSomeCalories(runData) {
+
         const totalCalories = runData.reduce(
             (total, item) => total + (item.caloriesBurned ?? 0),
             0
@@ -37,6 +39,11 @@ function HomePage() {
 
     // Récupération des statistiques
     useEffect(() => {
+
+        // On attend que les informations utilisateur soient chargées
+        if (loading || !userDetails) {
+            return;
+        }
 
         async function fetchStats() {
 
@@ -67,7 +74,7 @@ function HomePage() {
 
         fetchStats();
 
-    }, []);
+    }, [loading, userDetails]);
 
     return (
         <div className="home-page">
@@ -119,7 +126,9 @@ function HomePage() {
 
                         <div className="profile-information">
 
-                            <p>Âge : {profile?.age}</p>
+                            <p>
+                                Âge : {profile?.age}
+                            </p>
 
                             <p>
                                 Genre : {
@@ -129,8 +138,14 @@ function HomePage() {
                                 }
                             </p>
 
-                            <p>Taille : {profile?.height}</p>
-                            <p>Poids : {profile?.weight}</p>
+                            <p>
+                                Taille : {profile?.height}
+                            </p>
+
+                            <p>
+                                Poids : {profile?.weight}
+                            </p>
+
                         </div>
 
                     </div>
@@ -141,8 +156,15 @@ function HomePage() {
                 <section className="statistics-section">
 
                     <div className="statistics-title">
-                        <h1>Vos statistiques</h1>
-                        <p>depuis le 1 janvier 2026</p>
+
+                        <h1>
+                            Vos statistiques
+                        </h1>
+
+                        <p>
+                            depuis le 1 janvier 2026
+                        </p>
+
                     </div>
 
                     <div className="statistics-grid">
@@ -162,7 +184,9 @@ function HomePage() {
 
                         <div className="stat-card">
 
-                            <p>Calories brûlées</p>
+                            <p>
+                                Calories brûlées
+                            </p>
 
                             <strong>
                                 {stats}
@@ -173,7 +197,9 @@ function HomePage() {
 
                         <div className="stat-card">
 
-                            <p>Distance totale parcourue</p>
+                            <p>
+                                Distance totale parcourue
+                            </p>
 
                             <strong>
                                 {statistics?.totalDistance}
@@ -183,14 +209,23 @@ function HomePage() {
                         </div>
 
                         <div className="stat-card">
-                            <p>Nombre de jours de repos</p>
-                            <strong>9 <small> jours</small></strong>
+
+                            <p>
+                                Nombre de jours de repos
+                            </p>
+
+                            <strong>
+                                9
+                                <small> jours</small>
+                            </strong>
 
                         </div>
 
                         <div className="stat-card">
 
-                            <p>Nombre de sessions</p>
+                            <p>
+                                Nombre de sessions
+                            </p>
 
                             <strong>
                                 {statistics?.totalSessions}

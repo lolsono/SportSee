@@ -2,7 +2,8 @@ import {
     createContext,
     useContext,
     useEffect,
-    useState
+    useState,
+    useCallback
 } from "react";
 
 import UserServices from "../services/UserServices";
@@ -14,30 +15,31 @@ export function AuthProvider({ children }) {
     const [userDetails, setUserDetails] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
+    const loadUser = useCallback(async () => {
 
-        async function loadUser() {
+        try {
+            setLoading(true);
 
-            try {
-                const details = await UserServices();
+            const details = await UserServices();
 
-                setUserDetails(details || null);
+            setUserDetails(details || null);
 
-            } catch (error) {
+        } catch (error) {
 
-                console.error("Erreur UserServices :", error);
+            console.error("Erreur UserServices :", error);
 
-                setUserDetails(null);
+            setUserDetails(null);
 
-            } finally {
+        } finally {
 
-                setLoading(false);
-            }
+            setLoading(false);
         }
 
-        loadUser();
-
     }, []);
+
+    useEffect(() => {
+        loadUser();
+    }, [loadUser]);
 
     const logOut = async () => {
 
@@ -48,11 +50,6 @@ export function AuthProvider({ children }) {
             const response = await fetch("/logout", {
                 method: "POST",
             });
-
-            console.log(
-                "CONTEXT : réponse logout",
-                response.status
-            );
 
             if (!response.ok) {
                 return false;
@@ -78,6 +75,7 @@ export function AuthProvider({ children }) {
             value={{
                 userDetails,
                 loading,
+                loadUser,
                 logOut
             }}
         >
